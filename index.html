@@ -179,7 +179,7 @@ td.comment input{text-align:left}
     </select>
 
     <label>Code</label>
-    <input id="loginCode" type="password" placeholder="Code CMC">
+    <input id="loginCode" type="password" placeholder="Code confidentiel">
 
     <div class="grid2">
       <div>
@@ -193,7 +193,7 @@ td.comment input{text-align:left}
     </div>
 
     <button onclick="connexion()">Ouvrir le calendrier</button>
-    <p class="small">Code commun : CMC. Les données sont enregistrées localement dans le téléphone/navigateur utilisé.</p>
+    <p class="small">Code commun : Les données sont enregistrées localement dans le téléphone/navigateur utilisé.</p>
   </div>
 
   <div id="mainApp" class="hidden">
@@ -330,7 +330,8 @@ function connexion(){
   const annee = parseInt(document.getElementById("loginAnnee").value,10);
 
   if(!prenom){ alert("Choisis un prénom."); return; }
-  if(code !== "CMC"){ alert("Code incorrect."); return; }
+  document.getElementById("loginCard").classList.add("hidden");
+  if(code.toUpperCase() !== atob("Q01D")){ alert("Code incorrect."); return; }
   if(!mois || mois < 1 || mois > 12){ alert("Mois invalide."); return; }
   if(!annee || annee < 2026 || annee > 2035){ alert("Année invalide."); return; }
 
