@@ -437,7 +437,7 @@ function prepareMail(){
 
   Object.values(data).forEach(r=>{
     const d = parseH(r.deleg);
-    if(d > 0){
+    if(d > 0 || ["RTT","Conge paye","Maladie","Anciennete","Formation"].includes(r.statut)){
       totalDeleg += d;
       lines.push(`- ${r.date} | Horaire : ${r.horaire} | Total journee : ${fmt(parseH(r.total))}h | Delegation : ${fmt(d)}h | Travail reel : ${fmt(r.travail)}h | Commentaire : ${r.commentaire || ""}`);
     }
