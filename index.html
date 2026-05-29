@@ -342,6 +342,27 @@ function connexion(){
   document.getElementById("archiveMois").value = String(mois);
   document.getElementById("archiveAnnee").value = annee;
   generateCalendar();
+} function getISOWeek(date){
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+
+function horaireAuto(prenom, date){
+  const semaine = getISOWeek(date);
+  const paire = semaine % 2 === 0;
+
+  if(prenom === "Laurent"){
+    return paire ? "M" : "A";
+  }
+
+  if(prenom === "Sandro" || prenom === "Sébastien"){
+    return paire ? "M" : "N";
+  }
+
+  return "M";
 }
 function generateCalendar(){
   document.getElementById("calendarTitle").textContent = `Feuille mensuelle heures de délégation FO - ${state.prenom} - ${monthName(state.mois)} ${state.annee}`;
@@ -359,7 +380,7 @@ function generateCalendar(){
     const dateStr = `${pad(j)}/${pad(state.mois)}/${state.annee}`;
     const rec = saved[j] || {};
     const off = isOff(d);
-    const horaire = rec.horaire ?? (off ? "Repos / non travaille" : "5h-13h");
+    const HOURS = ["M","A","N","J","Repos / non travaille"];
     const total = rec.total ?? (off ? 0 : 8);
     const deleg = rec.deleg ?? 0;
     const statut = rec.statut ?? (off ? "Repos" : "Present");
